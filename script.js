@@ -12,6 +12,24 @@ let missing = requiredSkills.filter(skill =>
 !userSkills.map(s=>s.toLowerCase()).includes(skill.toLowerCase())
 );
 
+let coursesHTML = "";
+
+missing.forEach(skill => {
+
+if(courseData[skill]){
+
+coursesHTML += `<h4>${skill}</h4><ul>`;
+
+courseData[skill].forEach(course=>{
+coursesHTML += `<li>${course}</li>`;
+});
+
+coursesHTML += "</ul>";
+
+}
+
+});
+
 let result = `
 <h2>${career} Skill Analysis</h2>
 
@@ -21,12 +39,15 @@ let result = `
 <h3>Missing Skills</h3>
 <p>${missing.join(", ")}</p>
 
+<h3>Recommended Courses</h3>
+${coursesHTML}
+
 <h3>Learning Roadmap</h3>
 <ol>
 <li>Learn fundamentals</li>
-<li>Take online courses</li>
-<li>Build projects</li>
-<li>Create portfolio</li>
+<li>Complete recommended courses</li>
+<li>Build portfolio projects</li>
+<li>Practice interview questions</li>
 <li>Apply for internships</li>
 </ol>
 `;
