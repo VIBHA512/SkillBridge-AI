@@ -74,4 +74,16 @@ const courseData = {
 "Node.js Complete Guide - Udemy"
 ]
 
+"Deep Learning":[
+"Deep Learning Specialization - Coursera"
+],
+
+"TensorFlow":[
+"TensorFlow Developer Certificate - Coursera"
+],
+
+"NLP":[
+"Natural Language Processing Specialization - Coursera"
+]
+
 }
