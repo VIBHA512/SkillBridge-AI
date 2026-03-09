@@ -1,60 +1,53 @@
 const knownSkills = [
-"Python","Machine Learning","SQL","HTML","CSS",
-"JavaScript","React","Node.js","Deep Learning",
-"TensorFlow","NLP","Networking","Linux"
+"Python",
+"Machine Learning",
+"SQL",
+"HTML",
+"CSS",
+"JavaScript",
+"React",
+"Node.js",
+"Deep Learning",
+"TensorFlow",
+"NLP",
+"Networking",
+"Linux",
+"Data Visualization"
 ];
 
 function extractSkills(){
 
-let file = document.getElementById("resumeUpload").files[0];
+let fileInput = document.getElementById("resumeUpload");
 
-if(!file){
+if(fileInput.files.length === 0){
 alert("Please upload a resume file");
 return;
 }
 
+let file = fileInput.files[0];
+
 let reader = new FileReader();
 
-reader.onload = function(e){
+reader.onload = function(event){
 
-let text = e.target.result.toLowerCase();
+let text = event.target.result.toLowerCase();
 
-let detected = knownSkills.filter(skill =>
-text.includes(skill.toLowerCase())
-);
+let detectedSkills = [];
 
-document.getElementById("skills").value = detected.join(", ");
+knownSkills.forEach(skill=>{
+if(text.includes(skill.toLowerCase())){
+detectedSkills.push(skill);
+}
+});
+
+if(detectedSkills.length === 0){
+alert("No skills detected. Try entering manually.");
+}
+
+document.getElementById("skills").value = detectedSkills.join(", ");
 
 };
 
 reader.readAsText(file);
-
-}
-function recommendCareer(){
-
-let userSkills = document.getElementById("skills").value
-.split(",")
-.map(s => s.trim().toLowerCase());
-
-let bestCareer = "";
-let bestScore = 0;
-
-for(let career in careerSkills){
-
-let skills = careerSkills[career];
-
-let score = skills.filter(skill =>
-userSkills.includes(skill.toLowerCase())
-).length;
-
-if(score > bestScore){
-bestScore = score;
-bestCareer = career;
-}
-
-}
-
-document.getElementById("output").innerHTML =
-"<h2>Recommended Career: "+bestCareer+"</h2>";
 
 }
