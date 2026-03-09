@@ -1,21 +1,32 @@
 function showDashboard(){
 
-let progressHTML = `
-<h2>Learning Progress Dashboard</h2>
+let career = document.getElementById("career").value;
 
-<p>Python: 80%</p>
-<progress value="80" max="100"></progress>
+let userSkills = document.getElementById("skills").value
+.split(",")
+map(s => s.trim().toLowerCase());
 
-<p>Machine Learning: 40%</p>
-<progress value="40" max="100"></progress>
+let requiredSkills = careerSkills[career];
 
-<p>SQL: 60%</p>
-<progress value="60" max="100"></progress>
+let learned = requiredSkills.filter(skill =>
+userSkills.includes(skill.toLowerCase())
+);
 
-<p>Data Visualization: 30%</p>
-<progress value="30" max="100"></progress>
+let progress = Math.round((learned.length / requiredSkills.length) * 100);
+
+let html = `
+<h2>Learning Progress</h2>
+
+<p>Progress: ${progress}%</p>
+<progress value="${progress}" max="100"></progress>
+
+<h3>Skills Completed</h3>
+<p>${learned.join(", ")}</p>
+
+<h3>Skills Remaining</h3>
+<p>${requiredSkills.filter(skill => !learned.includes(skill)).join(", ")}</p>
 `;
 
-document.getElementById("output").innerHTML = progressHTML;
+document.getElementById("output").innerHTML = html;
 
 }
