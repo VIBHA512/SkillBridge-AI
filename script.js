@@ -42,8 +42,7 @@ let result = `
 <p>${requiredSkills.join(", ")}</p>
 
 <h3>Missing Skills</h3>
-<p>${missing.join(", ") || "None"}</p>
-
+<p style="color:red">${missing.join(", ") || "None"}</p>
 <h3>Recommended Courses</h3>
 ${coursesHTML || "No course recommendations available"}
 
