@@ -1,62 +1,68 @@
 body{
-background: linear-gradient(135deg,#0f172a,#020617);
-font-family: 'Poppins', sans-serif;
-color:white;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:flex-start;
-min-height:100vh;
+background:#0f172a;
+font-family:'Poppins',sans-serif;
 margin:0;
-padding-top:60px;
+color:white;
 }
 
-h1{
-font-size:40px;
+.navbar{
+background:#020617;
+padding:20px;
+text-align:center;
+border-bottom:1px solid #1e293b;
+}
+
+.navbar h2{
+margin:0;
 color:#22d3ee;
-margin-bottom:5px;
 }
 
-p{
-color:#94a3b8;
-margin-bottom:30px;
+.container{
+display:flex;
+justify-content:center;
+gap:30px;
+padding:40px;
+flex-wrap:wrap;
 }
 
-.box{
+.card{
 background:#111827;
-padding:35px;
-border-radius:15px;
+padding:30px;
+border-radius:12px;
+width:380px;
+box-shadow:0 10px 30px rgba(0,0,0,0.5);
+}
+
+.result-card{
 width:420px;
-box-shadow:0 10px 40px rgba(0,0,0,0.6);
 }
 
 h3{
 margin-top:15px;
-font-weight:500;
 }
 
-select,input{
+input,select{
 width:100%;
 padding:12px;
 margin-top:8px;
-border-radius:8px;
+border-radius:6px;
 border:none;
 background:#1f2937;
 color:white;
-font-size:14px;
 }
 
-input::placeholder{
-color:#9ca3af;
+.btn-group{
+display:flex;
+flex-direction:column;
+gap:10px;
+margin-top:15px;
 }
 
 button{
-margin-top:15px;
 padding:12px;
 border:none;
-border-radius:8px;
+border-radius:6px;
 background:#22d3ee;
-color:black;
 font-weight:bold;
 cursor:pointer;
 transition:0.3s;
@@ -64,20 +70,9 @@ transition:0.3s;
 
 button:hover{
 background:#06b6d4;
-transform:scale(1.05);
-}
-
-#output{
-margin-top:30px;
-background:#111827;
-padding:25px;
-border-radius:12px;
-width:420px;
-box-shadow:0 10px 40px rgba(0,0,0,0.6);
 }
 
 progress{
 width:100%;
 height:15px;
-margin-bottom:15px;
 }
