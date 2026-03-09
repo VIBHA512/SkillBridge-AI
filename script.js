@@ -60,3 +60,39 @@ ${coursesHTML || "No course recommendations available"}
 document.getElementById("output").innerHTML = result;
 
 }
+function recommendCareer(){
+
+let userSkills = document.getElementById("skills").value
+.split(",")
+.map(skill => skill.trim().toLowerCase());
+
+let bestCareer = "";
+let maxMatch = 0;
+
+for(let career in careerSkills){
+
+let requiredSkills = careerSkills[career].map(skill => skill.toLowerCase());
+
+let matchCount = requiredSkills.filter(skill =>
+userSkills.includes(skill)
+).length;
+
+if(matchCount > maxMatch){
+maxMatch = matchCount;
+bestCareer = career;
+}
+
+}
+
+if(bestCareer === ""){
+document.getElementById("output").innerHTML = "No suitable career found.";
+}
+else{
+document.getElementById("output").innerHTML = `
+<h2>Recommended Career</h2>
+<p>${bestCareer}</p>
+<p>Based on your skills.</p>
+`;
+}
+
+}
