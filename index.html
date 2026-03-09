@@ -4,6 +4,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 <title>SkillBridge AI</title>
 <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 </head>
 <body>
 
@@ -27,8 +28,7 @@
 
 <h3>Upload Resume</h3>
 
-<input type="file" id="resumeUpload">
-
+<input type="file" id="resumeUpload" accept="image/*">
 <button onclick="extractSkills()">Extract Skills</button>
 
 <h3>Enter Your Skills</h3>
