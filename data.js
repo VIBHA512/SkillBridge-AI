@@ -72,7 +72,7 @@ const courseData = {
 
 "Node.js":[
 "Node.js Complete Guide - Udemy"
-]
+],
 
 "Deep Learning":[
 "Deep Learning Specialization - Coursera"
