@@ -4,12 +4,17 @@ let career = document.getElementById("career").value;
 
 let userSkills = document.getElementById("skills").value
 .split(",")
-.map(skill => skill.trim());
+.map(skill => skill.trim().toLowerCase());
 
 let requiredSkills = careerSkills[career];
 
+if(!requiredSkills){
+document.getElementById("output").innerHTML = "Career data not found.";
+return;
+}
+
 let missing = requiredSkills.filter(skill =>
-!userSkills.map(s=>s.toLowerCase()).includes(skill.toLowerCase())
+!userSkills.includes(skill.toLowerCase())
 );
 
 let coursesHTML = "";
@@ -37,10 +42,10 @@ let result = `
 <p>${requiredSkills.join(", ")}</p>
 
 <h3>Missing Skills</h3>
-<p>${missing.join(", ")}</p>
+<p>${missing.join(", ") || "None"}</p>
 
 <h3>Recommended Courses</h3>
-${coursesHTML}
+${coursesHTML || "No course recommendations available"}
 
 <h3>Learning Roadmap</h3>
 <ol>
