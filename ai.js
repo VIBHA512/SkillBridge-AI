@@ -30,3 +30,31 @@ document.getElementById("skills").value = detected.join(", ");
 reader.readAsText(file);
 
 }
+function recommendCareer(){
+
+let userSkills = document.getElementById("skills").value
+.split(",")
+.map(s => s.trim().toLowerCase());
+
+let bestCareer = "";
+let bestScore = 0;
+
+for(let career in careerSkills){
+
+let skills = careerSkills[career];
+
+let score = skills.filter(skill =>
+userSkills.includes(skill.toLowerCase())
+).length;
+
+if(score > bestScore){
+bestScore = score;
+bestCareer = career;
+}
+
+}
+
+document.getElementById("output").innerHTML =
+"<h2>Recommended Career: "+bestCareer+"</h2>";
+
+}
