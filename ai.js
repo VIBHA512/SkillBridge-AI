@@ -20,37 +20,28 @@ function extractSkills(){
 let fileInput = document.getElementById("resumeUpload");
 
 if(fileInput.files.length === 0){
-alert("Please upload a resume image");
+alert("Upload resume image");
 return;
 }
 
 let file = fileInput.files[0];
 
-Tesseract.recognize(
-file,
-'eng',
-{ logger: m => console.log(m) }
+Tesseract.recognize(file,'eng')
+.then(result => {
 
-).then(({ data: { text } }) => {
+let text = result.data.text.toLowerCase();
 
-let resumeText = text.toLowerCase();
+let detected = [];
 
-let detectedSkills = [];
-
-knownSkills.forEach(skill => {
-
-if(resumeText.includes(skill.toLowerCase())){
-detectedSkills.push(skill);
+knownSkills.forEach(skill=>{
+if(text.includes(skill.toLowerCase())){
+detected.push(skill);
 }
-
 });
-  if(detectedSkills.length === 0){
-alert("No skills detected. Try entering manually.");
-}
 
-
-document.getElementById("skills").value = detectedSkills.join(", ");
+document.getElementById("skills").value = detected.join(", ");
 
 });
 
+}
 
