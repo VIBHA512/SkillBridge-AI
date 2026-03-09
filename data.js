@@ -1,88 +1,89 @@
 const careerSkills = {
 
 "Data Scientist":[
-"Python",
-"Machine Learning",
-"Statistics",
-"SQL",
-"Data Visualization"
+"python",
+"machine learning",
+"statistics",
+"sql",
+"data visualization"
 ],
 
 "Web Developer":[
-"HTML",
-"CSS",
-"JavaScript",
-"React",
-"Node.js"
+"html",
+"css",
+"javascript",
+"react",
+"node.js"
 ],
 
 "AI Engineer":[
-"Python",
-"Deep Learning",
-"TensorFlow",
-"Machine Learning",
-"NLP"
+"python",
+"deep learning",
+"tensorflow",
+"machine learning",
+"nlp"
 ],
 
 "Cybersecurity Analyst":[
-"Networking",
-"Linux",
-"Ethical Hacking",
-"Security Analysis",
-"Cryptography"
+"networking",
+"linux",
+"ethical hacking",
+"security analysis",
+"cryptography"
 ]
 
 }
+
 const courseData = {
 
-"Python":[
+"python":[
 "Python for Everybody - Coursera",
 "Complete Python Bootcamp - Udemy"
 ],
 
-"Machine Learning":[
+"machine learning":[
 "Machine Learning by Andrew Ng - Coursera",
 "Machine Learning Specialization - DeepLearning.AI"
 ],
 
-"SQL":[
+"sql":[
 "SQL for Data Science - Coursera",
 "The Complete SQL Bootcamp - Udemy"
 ],
 
-"Data Visualization":[
+"data visualization":[
 "Data Visualization with Tableau - Coursera"
 ],
 
-"HTML":[
+"html":[
 "HTML & CSS Crash Course - freeCodeCamp"
 ],
 
-"CSS":[
+"css":[
 "Responsive Web Design - freeCodeCamp"
 ],
 
-"JavaScript":[
+"javascript":[
 "JavaScript Algorithms - freeCodeCamp"
 ],
 
-"React":[
+"react":[
 "React Developer Course - Udemy"
 ],
 
-"Node.js":[
+"node.js":[
 "Node.js Complete Guide - Udemy"
 ],
 
-"Deep Learning":[
+"deep learning":[
 "Deep Learning Specialization - Coursera"
 ],
 
-"TensorFlow":[
+"tensorflow":[
 "TensorFlow Developer Certificate - Coursera"
 ],
 
-"NLP":[
+"nlp":[
 "Natural Language Processing Specialization - Coursera"
 ]
 
