@@ -20,34 +20,37 @@ function extractSkills(){
 let fileInput = document.getElementById("resumeUpload");
 
 if(fileInput.files.length === 0){
-alert("Please upload a resume file");
+alert("Please upload a resume image");
 return;
 }
 
 let file = fileInput.files[0];
 
-let reader = new FileReader();
+Tesseract.recognize(
+file,
+'eng',
+{ logger: m => console.log(m) }
 
-reader.onload = function(event){
+).then(({ data: { text } }) => {
 
-let text = event.target.result.toLowerCase();
+let resumeText = text.toLowerCase();
 
 let detectedSkills = [];
 
-knownSkills.forEach(skill=>{
-if(text.includes(skill.toLowerCase())){
+knownSkills.forEach(skill => {
+
+if(resumeText.includes(skill.toLowerCase())){
 detectedSkills.push(skill);
 }
-});
 
-if(detectedSkills.length === 0){
+});
+  if(detectedSkills.length === 0){
 alert("No skills detected. Try entering manually.");
 }
 
+
 document.getElementById("skills").value = detectedSkills.join(", ");
 
-};
+});
 
-reader.readAsText(file);
 
-}
