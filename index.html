@@ -9,7 +9,7 @@
 
 <h1>SkillBridge AI</h1>
 <p>AI Powered Skill Gap Analyzer</p>
-
+<button onclick="showDashboard()">View Progress Dashboard</button>
 <div class="box">
 
 <h3>Select Target Career</h3>
@@ -20,19 +20,25 @@
 <option>AI Engineer</option>
 <option>Cybersecurity Analyst</option>
 </select>
+<h3>Upload Resume (TXT)</h3>
 
+<input type="file" id="resumeUpload">
+
+<button onclick="extractSkills()">Extract Skills</button>
+  
 <h3>Enter Your Skills (comma separated)</h3>
 
 <input id="skills" placeholder="Python, SQL, HTML">
 
 <button onclick="analyze()">Analyze Skill Gap</button>
-
+<button onclick="recommendCareer()">Recommend Career</button>
 </div>
 
 <div id="output"></div>
 
 <script src="data.js"></script>
 <script src="script.js"></script>
-
+<script src="ai.js"></script>
+<script src="dashboard.js"></script>
 </body>
 </html>
