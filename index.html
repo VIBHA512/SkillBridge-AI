@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>SkillBridge AI</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h1>SkillBridge AI</h1>
+<p>AI Powered Skill Gap Analyzer</p>
+
+<div class="box">
+
+<h3>Select Target Career</h3>
+
+<select id="career">
+<option>Data Scientist</option>
+<option>Web Developer</option>
+<option>AI Engineer</option>
+<option>Cybersecurity Analyst</option>
+</select>
+
+<h3>Enter Your Skills (comma separated)</h3>
+
+<input id="skills" placeholder="Python, SQL, HTML">
+
+<button onclick="analyze()">Analyze Skill Gap</button>
+
+</div>
+
+<div id="output"></div>
+
+<script src="data.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
