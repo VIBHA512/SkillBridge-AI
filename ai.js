@@ -55,26 +55,48 @@ function extractSkills() {
 
 // 🤖 CHATBOT RESPONSE LOGIC
 function chatbotResponse(input) {
+
   input = input.toLowerCase();
 
-  if (input.includes("data scientist")) {
-    return "You should learn Python, Machine Learning, SQL, and Data Visualization.";
+  // Skills-based suggestions
+  if (input.includes("python")) {
+    return "With Python, you can explore Data Science, AI Engineer, Backend Developer roles.";
   }
-  else if (input.includes("web")) {
-    return "Focus on HTML, CSS, JavaScript, and React.";
+
+  if (input.includes("web")) {
+    return "You can become a Frontend Developer, Full Stack Developer, or UI/UX Engineer.";
   }
-  else if (input.includes("ai")) {
-    return "Learn Machine Learning, Deep Learning, and TensorFlow.";
+
+  if (input.includes("ai") || input.includes("machine learning")) {
+    return "Great choice! Focus on Python, ML, Deep Learning, and projects to become an AI Engineer.";
   }
-  else if (input.includes("skill")) {
-    return "Try improving both technical and communication skills.";
+
+  if (input.includes("cyber")) {
+    return "Cybersecurity roles require Networking, Linux, Ethical Hacking, and Security Analysis.";
   }
-  else if (input.includes("career")) {
-    return "Based on your skills, you can explore multiple tech roles!";
+
+  // Career suggestions based on entered skills
+  if (input.includes("career")) {
+    let skillsInput = document.getElementById("skills").value.toLowerCase();
+
+    if (skillsInput.includes("python") && skillsInput.includes("sql")) {
+      return "You are a good fit for Data Scientist or Data Analyst roles.";
+    }
+
+    if (skillsInput.includes("html") || skillsInput.includes("css")) {
+      return "You can explore Web Development roles.";
+    }
+
+    return "Try improving your technical skills to explore better career options.";
   }
-  else {
-    return "I'm here to help with careers, skills, and learning paths 😊";
+
+  // Learning guidance
+  if (input.includes("learn") || input.includes("start")) {
+    return "Start with fundamentals, then build projects, and finally apply for internships.";
   }
+
+  // Default smart fallback
+  return "I can guide you on careers, skills, and learning paths. Try asking like: 'career with python' or 'skills for AI engineer'.";
 }
 
 
