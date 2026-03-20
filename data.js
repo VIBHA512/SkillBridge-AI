@@ -63,7 +63,33 @@ const careerSkills = {
 
 };
 
+const softSkills = {
 
+  "Data Scientist": {
+    "problem solving": 0.3,
+    "critical thinking": 0.25,
+    "communication": 0.2,
+    "teamwork": 0.15,
+    "curiosity": 0.1
+  },
+
+  "Web Developer": {
+    "creativity": 0.3,
+    "communication": 0.25,
+    "teamwork": 0.2,
+    "problem solving": 0.15,
+    "adaptability": 0.1
+  },
+
+  "AI Engineer": {
+    "problem solving": 0.3,
+    "analytical thinking": 0.25,
+    "curiosity": 0.2,
+    "teamwork": 0.15,
+    "communication": 0.1
+  }
+
+};
 
 // 🔁 SKILL SYNONYMS (IMPORTANT FOR MATCHING)
 const synonyms = {
