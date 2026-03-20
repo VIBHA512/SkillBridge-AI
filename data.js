@@ -1,4 +1,4 @@
-// 🎯 CAREER SKILLS (LEVEL + WEIGHT BASED)
+// 🎯 CAREER SKILLS (LEVEL + WEIGHT)
 const careerSkills = { 
 
   "Data Scientist": {
@@ -63,6 +63,8 @@ const careerSkills = {
 
 };
 
+
+// 🧠 SOFT SKILLS
 const softSkills = {
 
   "Data Scientist": {
@@ -91,18 +93,18 @@ const softSkills = {
 
 };
 
-// 🔁 SKILL SYNONYMS (IMPORTANT FOR MATCHING)
+
+// 🔁 SYNONYMS (FOR BETTER MATCHING)
 const synonyms = {
   "ml": "machine learning",
   "ai": "machine learning",
+  "js": "javascript",
   "python programming": "python",
-  "data viz": "data visualization",
-  "js": "javascript"
+  "data viz": "data visualization"
 };
 
 
-
-// 📚 COURSE RECOMMENDATIONS (same as before)
+// 📚 COURSE DATA
 const courseData = {
 
   "python":[
@@ -111,45 +113,19 @@ const courseData = {
   ],
 
   "machine learning":[
-    "Machine Learning by Andrew Ng - Coursera",
-    "Machine Learning Specialization - DeepLearning.AI"
-  ],  
-
-  "excel":[
-    "Excel Skills for Data Analysis - Coursera"
-  ],
-
-  "database":[
-    "Database Management Systems - Coursera"
-  ],
-
-  "api":[
-    "REST API Development - Udemy"
-  ],
-
-  "aws":[
-    "AWS Cloud Practitioner Essentials"
-  ],
-
-  "cloud computing":[
-    "Introduction to Cloud Computing - Coursera"
+    "Machine Learning by Andrew Ng - Coursera"
   ],
 
   "sql":[
-    "SQL for Data Science - Coursera",
-    "The Complete SQL Bootcamp - Udemy"
-  ],
-
-  "data visualization":[
-    "Data Visualization with Tableau - Coursera"
+    "SQL for Data Science - Coursera"
   ],
 
   "html":[
-    "HTML & CSS Crash Course - freeCodeCamp"
+    "HTML & CSS - freeCodeCamp"
   ],
 
   "css":[
-    "Responsive Web Design - freeCodeCamp"
+    "Responsive Design - freeCodeCamp"
   ],
 
   "javascript":[
@@ -157,27 +133,26 @@ const courseData = {
   ],
 
   "react":[
-    "React Developer Course - Udemy"
+    "React Course - Udemy"
   ],
 
   "node.js":[
-    "Node.js Complete Guide - Udemy"
+    "Node.js Guide - Udemy"
   ],
 
-  "deep learning":[
-    "Deep Learning Specialization - Coursera"
+  "excel":[
+    "Excel for Data Analysis"
   ],
 
-  "tensorflow":[
-    "TensorFlow Developer Certificate - Coursera"
+  "aws":[
+    "AWS Cloud Essentials"
   ],
 
-  "nlp":[
-    "Natural Language Processing Specialization - Coursera"
+  "cloud computing":[
+    "Intro to Cloud Computing"
   ]
 
 };
-
 
 
 // 🔥 TRENDING SKILLS
@@ -191,57 +166,50 @@ const trendingSkills = [
 ];
 
 
-
-// 🧠 NORMALIZE SKILL (LOWERCASE + SYNONYMS)
+// 🧠 NORMALIZE SKILL
 function normalizeSkill(skill) {
   skill = skill.toLowerCase().trim();
   return synonyms[skill] || skill;
 }
 
 
-
-// 💡 LEVEL COMPARISON
+// 📊 LEVEL COMPARISON
 function compareLevel(userLevel, requiredLevel) {
-  const levels = { basic: 1, beginner: 1, intermediate: 2, advanced: 3 };
 
-  // 🔥 Allow partial match
+  const levels = {
+    basic: 1,
+    beginner: 1,
+    intermediate: 2,
+    advanced: 3
+  };
+
   if (userLevel === requiredLevel) return true;
 
-  // allow one level below (IMPORTANT FIX)
   return (levels[userLevel] || 0) + 1 >= (levels[requiredLevel] || 0);
 }
 
 
-// 🚀 IMPROVED MATCH FUNCTION
-function calculateMatch(userInput, requiredSkillsObj) {
-
-  // Convert user input → object
-  const userSkills = {};
-
-  userInput.split(',').forEach(s => {
-    let [skill, level] = s.split(':');
-
-    skill = normalizeSkill(skill);
-   level = (level || "intermediate").toLowerCase().trim();
-    if(level === "basic") level = "beginner";
-
-    userSkills[skill] = level;
-  });
+// 🚀 FINAL MATCH FUNCTION (OBJECT BASED)
+function calculateMatch(userSkills, requiredSkillsObj) {
 
   let score = 0;
   let totalWeight = 0;
 
   for (const skill in requiredSkillsObj) {
 
-    const { level, weight } = requiredSkillsObj[skill];
+    let { level, weight } = requiredSkillsObj[skill];
 
     totalWeight += weight;
-console.log("User Skills:", userSkills);
-console.log("Required:", requiredSkillsObj);
-   if (userSkills[skill.trim()] && compareLevel(userSkills[skill.trim()], level)) {
+
+    if (
+      userSkills[skill] &&
+      compareLevel(userSkills[skill], level)
+    ) {
       score += weight;
     }
   }
 
-  return Math.round((score / totalWeight) * 100);
+  return totalWeight 
+    ? Math.round((score / totalWeight) * 100)
+    : 0;
 }
