@@ -2,10 +2,12 @@ function analyze(){
 
   let career = document.getElementById("career").value;
 
-  let userSkills = document.getElementById("skills").value
-    .split(",")
-    .map(skill => skill.trim().toLowerCase())
-    .filter(skill => skill !== "");
+ let userSkills = document.getElementById("skills").value
+  .split(",")
+  .map(skill => skill.trim().toLowerCase())
+  .filter(skill => skill !== "");
+
+userSkills = normalizeSkills(userSkills);
 
   if(userSkills.length === 0){
     document.getElementById("output").innerHTML = "⚠️ Please enter your skills first.";
@@ -88,6 +90,52 @@ function analyze(){
   document.getElementById("output").scrollIntoView({ behavior: "smooth" });
 }
 
+function normalizeSkills(userSkills) {
+
+  const allSkills = Object.values(careerSkills).flat();
+
+  return userSkills.map(userSkill => {
+
+    let bestMatch = userSkill;
+    let minDistance = Infinity;
+
+    allSkills.forEach(skill => {
+      let dist = levenshtein(userSkill, skill);
+
+      if (dist < minDistance) {
+        minDistance = dist;
+        bestMatch = skill;
+      }
+    });
+
+    return bestMatch;
+  });
+}
+
+
+// 🔥 Levenshtein Distance (string matching)
+function levenshtein(a, b) {
+  const matrix = [];
+
+  for (let i = 0; i <= b.length; i++) matrix[i] = [i];
+  for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
+
+  for (let i = 1; i <= b.length; i++) {
+    for (let j = 1; j <= a.length; j++) {
+      if (b.charAt(i - 1) === a.charAt(j - 1)) {
+        matrix[i][j] = matrix[i - 1][j - 1];
+      } else {
+        matrix[i][j] = Math.min(
+          matrix[i - 1][j - 1] + 1,
+          matrix[i][j - 1] + 1,
+          matrix[i - 1][j] + 1
+        );
+      }
+    }
+  }
+
+  return matrix[b.length][a.length];
+}
 
 
 // 🚀 CAREER RECOMMENDATION
