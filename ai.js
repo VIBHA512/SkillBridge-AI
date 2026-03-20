@@ -38,6 +38,19 @@ if(text.includes(skill.toLowerCase())){
 detected.push(skill);
 }
 });
+  function chatbotResponse(input) {
+    input = input.toLowerCase();
+
+    if (input.includes("skill")) {
+        return "Focus on Machine Learning and SQL.";
+    } 
+    else if (input.includes("career")) {
+        return "You are suitable for Data Science roles.";
+    } 
+    else {
+        return "Keep improving your skills step by step.";
+    }
+}
 
 document.getElementById("skills").value = detected.join(", ");
 
