@@ -2,60 +2,77 @@
 <html>
 <head>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-<title>SkillBridge AI</title>
-<link rel="stylesheet" href="style.css">
+  <title>SkillBridge AI</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Tesseract -->
   <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
 
 <div class="navbar">
-<h2>SkillBridge AI</h2>
-<p>AI Skill Gap Analyzer</p>
+  <h2>SkillBridge AI</h2>
+  <p>AI Skill Gap Analyzer</p>
 </div>
 
 <div class="container">
 
-<div class="card">
+  <!-- MAIN CARD -->
+  <div class="card">
 
-<h3>Select Target Career</h3>
+    <h3>Select Target Career</h3>
+    <select id="career">
+      <option>Data Scientist</option>
+      <option>Web Developer</option>
+      <option>AI Engineer</option>
+      <option>Cybersecurity Analyst</option>
+    </select>
 
-<select id="career">
-<option>Data Scientist</option>
-<option>Web Developer</option>
-<option>AI Engineer</option>
-<option>Cybersecurity Analyst</option>
-</select>
+    <h3>Upload Resume</h3>
+    <input type="file" id="resumeUpload" accept="image/*">
+    <button onclick="extractSkills()">Extract Skills</button>
 
-<h3>Upload Resume</h3>
+    <h3>Enter Your Skills</h3>
+    <input id="skills" placeholder="Python, SQL, Machine Learning">
 
-<input type="file" id="resumeUpload" accept="image/*">
-<button onclick="extractSkills()">Extract Skills</button>
+    <div class="btn-group">
+      <button onclick="analyze()">Analyze Skill Gap</button>
+      <button onclick="recommendCareer()">Recommend Career</button>
+      <button onclick="showDashboard()">Progress Dashboard</button>
+    </div>
 
-<h3>Enter Your Skills</h3>
+  </div>
 
-<input id="skills" placeholder="Python, SQL, Machine Learning">
+  <!-- OUTPUT -->
+  <div id="output" class="card result-card"></div>
 
-<div class="btn-group">
+  <!-- 🔥 CHATBOT -->
+  <div class="card">
+    <h3>AI Career Chatbot</h3>
 
-<button onclick="analyze()">Analyze Skill Gap</button>
+    <div id="chatbox" class="chatbox"></div>
 
-<button onclick="recommendCareer()">Recommend Career</button>
+    <input id="chatInput" placeholder="Ask about skills, careers..." />
+    <button onclick="sendMessage()">Send</button>
+  </div>
 
-<button onclick="showDashboard()">Progress Dashboard</button>
+  <!-- 📈 TRENDING SKILLS -->
+  <div class="card">
+    <h3>🔥 Trending Skills</h3>
+    <ul id="trending"></ul>
+  </div>
 
 </div>
 
-</div>
-
-<div id="output" class="card result-card"></div>
-
-</div>
-
+<!-- Scripts -->
 <script src="data.js"></script>
 <script src="ai.js"></script>
 <script src="script.js"></script>
 <script src="dashboard.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  
+
 </body>
 </html>
