@@ -196,7 +196,7 @@ function calculateMatch(userInput, requiredSkillsObj) {
     let [skill, level] = s.split(':');
 
     skill = normalizeSkill(skill);
-    level = (level || "beginner").toLowerCase().trim();
+   level = (level || "intermediate").toLowerCase().trim();
 
     userSkills[skill] = level;
   });
@@ -209,8 +209,9 @@ function calculateMatch(userInput, requiredSkillsObj) {
     const { level, weight } = requiredSkillsObj[skill];
 
     totalWeight += weight;
-
-    if (userSkills[skill] && compareLevel(userSkills[skill], level)) {
+console.log("User Skills:", userSkills);
+console.log("Required:", requiredSkillsObj);
+   if (userSkills[skill.trim()] && compareLevel(userSkills[skill.trim()], level)) {
       score += weight;
     }
   }
