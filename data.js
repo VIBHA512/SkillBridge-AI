@@ -74,7 +74,27 @@ const courseData = {
   "machine learning":[
     "Machine Learning by Andrew Ng - Coursera",
     "Machine Learning Specialization - DeepLearning.AI"
-  ],
+  ],  
+  "excel":[
+  "Excel Skills for Data Analysis - Coursera"
+],
+
+"database":[
+  "Database Management Systems - Coursera"
+],
+
+"api":[
+  "REST API Development - Udemy"
+],
+
+"aws":[
+  "AWS Cloud Practitioner Essentials"
+],
+
+"cloud computing":[
+  "Introduction to Cloud Computing - Coursera"
+],
+  
 
   "sql":[
     "SQL for Data Science - Coursera",
