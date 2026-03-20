@@ -20,7 +20,9 @@ function analyze(){
   );
 
   // ✅ Match Score (using function from data.js)
-  let score = calculateMatch(userSkills, requiredSkills);
+let score = typeof calculateMatch === "function"
+  ? calculateMatch(userSkills, requiredSkills)
+  : Math.round((userSkills.length / requiredSkills.length) * 100);
 
   // ✅ Course Recommendations
   let coursesHTML = "";
