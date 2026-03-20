@@ -7,6 +7,11 @@ function analyze(){
     .map(skill => skill.trim().toLowerCase())
     .filter(skill => skill !== "");
 
+  if(userSkills.length === 0){
+    document.getElementById("output").innerHTML = "⚠️ Please enter your skills first.";
+    return;
+  }
+
   let requiredSkills = careerSkills[career];
 
   if(!requiredSkills){
@@ -19,10 +24,10 @@ function analyze(){
     !userSkills.includes(skill.toLowerCase())
   );
 
-  // ✅ Match Score (using function from data.js)
-let score = typeof calculateMatch === "function"
-  ? calculateMatch(userSkills, requiredSkills)
-  : Math.round((userSkills.length / requiredSkills.length) * 100);
+  // ✅ Match Score
+  let score = typeof calculateMatch === "function"
+    ? calculateMatch(userSkills, requiredSkills)
+    : Math.round((userSkills.length / requiredSkills.length) * 100);
 
   // ✅ Course Recommendations
   let coursesHTML = "";
@@ -42,6 +47,20 @@ let score = typeof calculateMatch === "function"
 
   });
 
+  // 🔥 PERSONALIZED ROADMAP (KILLER FEATURE)
+  let roadmap = "";
+
+  missing.forEach((skill, index) => {
+    roadmap += `<li>Week ${index*2+1}-${index*2+2}: Learn ${skill}</li>`;
+  });
+
+  let roadmapHTML = `
+  <h3>🛣️ Personalized Roadmap</h3>
+  <ol>
+  ${roadmap || "<li>You are job-ready! 🎉</li>"}
+  </ol>
+  `;
+
   // ✅ Final Output
   let result = `
   <h2>🎯 ${career} Skill Analysis</h2>
@@ -57,24 +76,16 @@ let score = typeof calculateMatch === "function"
   <h3>📚 Recommended Courses</h3>
   ${coursesHTML || "No course recommendations available"}
 
-  let roadmap = "";
-
-missing.forEach((skill, index) => {
-  roadmap += `<li>Week ${index*2+1}-${index*2+2}: Learn ${skill}</li>`;
-});
-
-let roadmapHTML = `
-<h3>🛣️ Personalized Roadmap</h3>
-<ol>
-${roadmap || "<li>You are job-ready! 🎉</li>"}
-</ol>
-`;
+  ${roadmapHTML}
   `;
 
   document.getElementById("output").innerHTML = result;
 
-  // ✅ Save skills for dashboard
+  // ✅ Save skills
   localStorage.setItem("userSkills", JSON.stringify(userSkills));
+
+  // ✅ Auto scroll
+  document.getElementById("output").scrollIntoView({ behavior: "smooth" });
 }
 
 
@@ -87,6 +98,11 @@ function recommendCareer(){
     .map(skill => skill.trim().toLowerCase())
     .filter(skill => skill !== "");
 
+  if(userSkills.length === 0){
+    document.getElementById("output").innerHTML = "⚠️ Please enter your skills first.";
+    return;
+  }
+
   let bestCareer = "";
   let maxScore = 0;
 
@@ -94,7 +110,9 @@ function recommendCareer(){
 
     let requiredSkills = careerSkills[career];
 
-    let score = calculateMatch(userSkills, requiredSkills);
+    let score = typeof calculateMatch === "function"
+      ? calculateMatch(userSkills, requiredSkills)
+      : 0;
 
     if(score > maxScore){
       maxScore = score;
@@ -115,6 +133,9 @@ function recommendCareer(){
   }
 
 }
+
+
+// 🔥 TRENDING SKILLS LOAD
 window.onload = function() {
 
   let list = document.getElementById("trending");
@@ -125,7 +146,7 @@ window.onload = function() {
 
   trendingSkills.forEach(skill => {
     let li = document.createElement("li");
-    li.innerText = skill;
+    li.innerText = "🔥 " + skill;
     list.appendChild(li);
   });
 
