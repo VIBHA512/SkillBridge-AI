@@ -95,3 +95,18 @@ document.getElementById("output").innerHTML = `
 }
 
 }
+function calculateMatch(userSkills, requiredSkills) {
+    let match = userSkills.filter(skill => requiredSkills.includes(skill));
+    return Math.round((match.length / requiredSkills.length) * 100);
+}
+function submitSkills() {
+    let userSkills = [];
+
+    document.querySelectorAll('input[name="skills"]:checked').forEach(el => {
+        userSkills.push(el.value);
+    });
+
+    localStorage.setItem("userSkills", JSON.stringify(userSkills));
+
+    window.location.href = "dashboard.html";
+}
