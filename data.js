@@ -177,9 +177,13 @@ function normalizeSkill(skill) {
 // 💡 LEVEL COMPARISON
 function compareLevel(userLevel, requiredLevel) {
   const levels = { beginner: 1, intermediate: 2, advanced: 3 };
-  return (levels[userLevel] || 0) >= (levels[requiredLevel] || 0);
-}
 
+  // 🔥 Allow partial match
+  if (userLevel === requiredLevel) return true;
+
+  // allow one level below (IMPORTANT FIX)
+  return (levels[userLevel] || 0) + 1 >= (levels[requiredLevel] || 0);
+}
 
 
 // 🚀 IMPROVED MATCH FUNCTION
