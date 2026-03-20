@@ -16,23 +16,33 @@ function analyze(){
     return;
   }
 
-  // 🔥 Convert user input → object {skill: level}
+  // 🔥 Convert user input → object
   const userSkills = {};
-  let userSoftInput = document.getElementById("softSkills").value
-  .split(",")
-  .map(s => s.trim().toLowerCase())
-  .filter(s => s !== "");
 
   userInput.split(',').forEach(s => {
     let [skill, level] = s.split(':');
 
     skill = normalizeSkill(skill);
-    level = (level || "beginner").toLowerCase().trim();
+    level = (level || "intermediate").toLowerCase().trim();
+
+    if(level === "basic") level = "beginner";
 
     userSkills[skill] = level;
   });
 
-  // ✅ Find missing skills
+  // 🔥 Soft Skills (SAFE)
+  let userSoftInput = [];
+
+  let softField = document.getElementById("softSkills");
+
+  if(softField){
+    userSoftInput = softField.value
+      .split(",")
+      .map(s => s.trim().toLowerCase())
+      .filter(s => s !== "");
+  }
+
+  // ✅ Missing skills
   let missing = [];
 
   for(let skill in requiredSkills){
@@ -40,27 +50,34 @@ function analyze(){
       missing.push(skill);
     }
   }
-let softScore = 0;
-let totalSoftWeight = 0;
 
-let requiredSoft = softSkills[career] || {};
+  // 🧠 SOFT SKILL SCORE
+  let softScore = 0;
+  let totalSoftWeight = 0;
 
-for(let skill in requiredSoft){
+  let requiredSoft = softSkills[career] || {};
 
-  totalSoftWeight += requiredSoft[skill];
+  for(let skill in requiredSoft){
+    totalSoftWeight += requiredSoft[skill];
 
-  if(userSoftInput.includes(skill)){
-    softScore += requiredSoft[skill];
+    if(userSoftInput.includes(skill)){
+      softScore += requiredSoft[skill];
+    }
   }
-}
 
-let softPercent = totalSoftWeight 
-  ? Math.round((softScore / totalSoftWeight) * 100)
-  : 0;
-  // ✅ Match Score
-  let score = calculateMatch(userInput, requiredSkills);
-let finalScore = Math.round((score * 0.7) + (softPercent * 0.3));
-  // ✅ Course Recommendations
+  let softPercent = totalSoftWeight 
+    ? Math.round((softScore / totalSoftWeight) * 100)
+    : 0;
+
+  // 🎯 TECHNICAL SCORE
+  let score = calculateMatch(userSkills, requiredSkills);
+
+  // 🎯 FINAL SCORE
+  let finalScore = userSoftInput.length > 0
+    ? Math.round((score * 0.7) + (softPercent * 0.3))
+    : score;
+
+  // 📚 COURSES
   let coursesHTML = "";
 
   missing.forEach(skill => {
@@ -73,7 +90,7 @@ let finalScore = Math.round((score * 0.7) + (softPercent * 0.3));
     }
   });
 
-  // 🛣️ Roadmap
+  // 🛣️ ROADMAP
   let roadmap = "";
 
   missing.forEach((skill, index) => {
@@ -87,17 +104,16 @@ let finalScore = Math.round((score * 0.7) + (softPercent * 0.3));
     </ol>
   `;
 
-  // 🎯 Output
+  // 🎯 OUTPUT
   let result = `
-  <h2>🎯 ${career} Skill Analysis</h2>
+    <h2>🎯 ${career} Skill Analysis</h2>
 
-  <h3>📊 Technical Score: ${score}%</h3>
-  <h3>🧠 Soft Skills Score: ${softPercent}%</h3>
-  <h3>🎯 Overall Score: <span style="color:#4ade80">${finalScore}%</span></h3>
-`;
+    <h3>📊 Technical Score: ${score}%</h3>
+    <h3>🧠 Soft Skills Score: ${softPercent}%</h3>
+    <h3>🎯 Overall Score: <span style="color:#4ade80">${finalScore}%</span></h3>
 
     <h3>✅ Your Skills</h3>
-    <p>${Object.keys(userSkills).join(", ")}</p>
+    <p>${Object.keys(userSkills).join(", ") || "None"}</p>
 
     <h3>📌 Missing Skills</h3>
     <p style="color:#f87171">${missing.join(", ") || "None 🎉"}</p>
@@ -110,12 +126,10 @@ let finalScore = Math.round((score * 0.7) + (softPercent * 0.3));
 
   document.getElementById("output").innerHTML = result;
 
-  // 💾 Save skills
   localStorage.setItem("userSkills", JSON.stringify(userSkills));
 
   document.getElementById("output").scrollIntoView({ behavior: "smooth" });
 }
-
 
 
 // 🚀 SUGGEST CAREERS
@@ -128,19 +142,28 @@ function suggestCareers(){
     return;
   }
 
+  let userSkills = {};
+
+  userInput.split(',').forEach(s => {
+    let [skill, level] = s.split(':');
+
+    skill = normalizeSkill(skill);
+    level = (level || "intermediate").toLowerCase().trim();
+
+    userSkills[skill] = level;
+  });
+
   let results = [];
 
   for(let career in careerSkills){
 
-    let requiredSkills = careerSkills[career];
-    let score = calculateMatch(userInput, requiredSkills);
+    let score = calculateMatch(userSkills, careerSkills[career]);
 
     if(score > 0){
       results.push({ career, score });
     }
   }
 
-  // sort highest first
   results.sort((a, b) => b.score - a.score);
 
   let html = "<h2>💡 Suggested Career Paths</h2>";
@@ -153,8 +176,7 @@ function suggestCareers(){
 }
 
 
-
-// 🎯 BEST CAREER RECOMMENDATION
+// 🚀 BEST CAREER
 function recommendCareer(){
 
   let userInput = document.getElementById("skills").value;
@@ -164,13 +186,23 @@ function recommendCareer(){
     return;
   }
 
+  let userSkills = {};
+
+  userInput.split(',').forEach(s => {
+    let [skill, level] = s.split(':');
+
+    skill = normalizeSkill(skill);
+    level = (level || "intermediate").toLowerCase().trim();
+
+    userSkills[skill] = level;
+  });
+
   let bestCareer = "";
   let maxScore = 0;
 
   for(let career in careerSkills){
 
-    let requiredSkills = careerSkills[career];
-    let score = calculateMatch(userInput, requiredSkills);
+    let score = calculateMatch(userSkills, careerSkills[career]);
 
     if(score > maxScore){
       maxScore = score;
@@ -191,8 +223,7 @@ function recommendCareer(){
 }
 
 
-
-// 🔥 TRENDING SKILLS LOAD
+// 🔥 LOAD DATA
 window.onload = function() {
 
   // 🔹 Trending Skills
@@ -208,7 +239,7 @@ window.onload = function() {
     });
   }
 
-  // 🔹 Dynamic Career Dropdown (AUTO UPDATE)
+  // 🔹 Dynamic Career Dropdown
   let dropdown = document.getElementById("career");
 
   if (dropdown) {
