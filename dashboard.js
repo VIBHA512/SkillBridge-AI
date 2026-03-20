@@ -36,7 +36,8 @@ function showDashboard() {
   // 🔥 Process skills
   for(let skill in requiredSkills){
 
-    let { level, weight } = requiredSkills[skill];
+    let level = requiredSkills[skill].level || "beginner";
+let weight = requiredSkills[skill].weight || 1;
     totalWeight += weight;
 
     if(userSkills[skill] && compareLevel(userSkills[skill], level)){
@@ -46,8 +47,7 @@ function showDashboard() {
       remaining.push(skill);
     }
   }
-
-  let progress = Math.round((score / totalWeight) * 100);
+let progress = totalWeight ? Math.round((score / totalWeight) * 100) : 0;
 
   // 🧠 Convert levels to numbers for chart
   function levelToNumber(level){
@@ -84,9 +84,11 @@ function showDashboard() {
   document.getElementById("output").innerHTML = html;
 
   // 📊 CHART
-  let ctx = document.getElementById("skillChart");
-
-  new Chart(ctx, {
+let ctx = document.getElementById("skillChart").getContext("2d");
+if(window.skillChartInstance){
+  window.skillChartInstance.destroy();
+}
+  window.skillChartInstance = new Chart(ctx, {
     type: 'bar',
     data: {
       labels: labels,
