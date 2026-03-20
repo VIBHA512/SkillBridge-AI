@@ -1,135 +1,201 @@
 body{
-background:#0f172a;
-font-family:'Poppins',sans-serif;
-margin:0;
-color:white;
+  background:#0f172a;
+  font-family:'Poppins',sans-serif;
+  margin:0;
+  color:white;
 }
 
+/* NAVBAR */
 .navbar{
-background:#020617;
-padding:20px;
-text-align:center;
-border-bottom:1px solid #1e293b;
+  background:#020617;
+  padding:20px;
+  text-align:center;
+  border-bottom:1px solid #1e293b;
 }
 
 .navbar h2{
-margin:0;
-color:#22d3ee;
+  margin:0;
+  color:#22d3ee;
 }
 
+/* LAYOUT */
 .container{
-display:flex;
-justify-content:center;
-gap:30px;
-padding:40px;
-flex-wrap:wrap;
+  display:flex;
+  justify-content:center;
+  gap:30px;
+  padding:40px;
+  flex-wrap:wrap;
 }
 
+/* CARD */
 .card{
-background:#111827;
-padding:30px;
-border-radius:12px;
-width:380px;
-box-shadow:0 10px 30px rgba(0,0,0,0.5);
+  background:#111827;
+  padding:30px;
+  border-radius:16px;
+  width:380px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.5);
+  transition:0.3s;
+}
+
+.card:hover{
+  transform:translateY(-5px);
 }
 
 .result-card{
-width:420px;
+  width:420px;
+}
+
+/* HEADINGS */
+h2{
+  color:#22d3ee;
 }
 
 h3{
-margin-top:15px;
+  margin-top:15px;
 }
 
+/* INPUTS */
 input,select{
-width:100%;
-padding:12px;
-margin-top:8px;
-border-radius:6px;
-border:none;
-background:#1f2937;
-color:white;
+  width:100%;
+  padding:12px;
+  margin-top:8px;
+  border-radius:8px;
+  border:none;
+  background:#1f2937;
+  color:white;
+  outline:none;
 }
 
+/* BUTTONS */
 .btn-group{
-display:flex;
-flex-direction:column;
-gap:10px;
-margin-top:15px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:15px;
 }
 
 button{
-padding:12px;
-border:none;
-border-radius:6px;
-background:#22d3ee;
-font-weight:bold;
-cursor:pointer;
-transition:0.3s;
+  padding:12px;
+  border:none;
+  border-radius:8px;
+  background:#22d3ee;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.3s;
 }
 
 button:hover{
-background:#06b6d4;
+  background:#06b6d4;
 }
+
+button:active{
+  transform:scale(0.96);
+}
+
+/* OUTPUT CARD */
+#output{
+  min-height:150px;
+}
+
+/* MATCH SCORE HIGHLIGHT */
+#output h3:first-of-type{
+  color:#4ade80;
+  font-size:20px;
+}
+
+/* MISSING SKILLS */
+#output p[style]{
+  font-weight:bold;
+}
+
+/* PROGRESS BAR */
+progress{
+  width:100%;
+  height:18px;
+  border-radius:10px;
+  overflow:hidden;
+}
+
+progress::-webkit-progress-bar{
+  background:#1f2937;
+}
+
+progress::-webkit-progress-value{
+  background:#22d3ee;
+  border-radius:10px;
+}
+
 /* CHATBOX */
 .chatbox{
-height:200px;
-overflow-y:auto;
-background:#020617;
-padding:10px;
-border-radius:8px;
-margin-bottom:10px;
-font-size:14px;
+  height:220px;
+  overflow-y:auto;
+  background:#020617;
+  padding:12px;
+  border-radius:10px;
+  margin-bottom:10px;
+  font-size:14px;
 }
 
+/* CHAT STYLING */
 .chatbox p{
-margin:5px 0;
+  margin:6px 0;
 }
 
-/* DIFFERENT COLORS FOR CHAT */
-.chatbox b{
-color:#22d3ee;
+.chatbox p b{
+  color:#22d3ee;
+}
+
+/* DIFFERENT MESSAGE STYLES */
+.chatbox p:nth-child(odd){
+  color:#cbd5f5;
+}
+
+.chatbox p:nth-child(even){
+  color:#a7f3d0;
+}
+
+/* SCROLLBAR */
+.chatbox::-webkit-scrollbar{
+  width:6px;
+}
+
+.chatbox::-webkit-scrollbar-thumb{
+  background:#22d3ee;
+  border-radius:10px;
 }
 
 /* TRENDING SKILLS */
 #trending{
-list-style:none;
-padding:0;
-margin-top:10px;
+  list-style:none;
+  padding:0;
+  margin-top:10px;
 }
 
 #trending li{
-background:#1f2937;
-margin:6px 0;
-padding:10px;
-border-radius:6px;
-transition:0.3s;
+  background:#1f2937;
+  margin:6px 0;
+  padding:10px;
+  border-radius:8px;
+  transition:0.3s;
 }
 
 #trending li:hover{
-background:#374151;
+  background:#374151;
+  transform:translateX(5px);
 }
 
-/* OUTPUT CARD IMPROVEMENT */
-#output{
-min-height:150px;
-}
+/* RESPONSIVE */
+@media(max-width:768px){
+  .container{
+    flex-direction:column;
+    align-items:center;
+  }
 
-/* SMOOTH BUTTON CLICK EFFECT */
-button:active{
-transform:scale(0.97);
-}
+  .card{
+    width:90%;
+  }
 
-/* SCROLLBAR (optional but cool 😎) */
-.chatbox::-webkit-scrollbar{
-width:6px;
-}
-
-.chatbox::-webkit-scrollbar-thumb{
-background:#22d3ee;
-border-radius:10px;
-}
-progress{
-width:100%;
-height:15px;
+  .result-card{
+    width:90%;
+  }
 }
