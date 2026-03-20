@@ -71,7 +71,64 @@ transition:0.3s;
 button:hover{
 background:#06b6d4;
 }
+/* CHATBOX */
+.chatbox{
+height:200px;
+overflow-y:auto;
+background:#020617;
+padding:10px;
+border-radius:8px;
+margin-bottom:10px;
+font-size:14px;
+}
 
+.chatbox p{
+margin:5px 0;
+}
+
+/* DIFFERENT COLORS FOR CHAT */
+.chatbox b{
+color:#22d3ee;
+}
+
+/* TRENDING SKILLS */
+#trending{
+list-style:none;
+padding:0;
+margin-top:10px;
+}
+
+#trending li{
+background:#1f2937;
+margin:6px 0;
+padding:10px;
+border-radius:6px;
+transition:0.3s;
+}
+
+#trending li:hover{
+background:#374151;
+}
+
+/* OUTPUT CARD IMPROVEMENT */
+#output{
+min-height:150px;
+}
+
+/* SMOOTH BUTTON CLICK EFFECT */
+button:active{
+transform:scale(0.97);
+}
+
+/* SCROLLBAR (optional but cool 😎) */
+.chatbox::-webkit-scrollbar{
+width:6px;
+}
+
+.chatbox::-webkit-scrollbar-thumb{
+background:#22d3ee;
+border-radius:10px;
+}
 progress{
 width:100%;
 height:15px;
