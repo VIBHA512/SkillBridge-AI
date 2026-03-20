@@ -32,5 +32,34 @@ let html = `
 `;
 
 document.getElementById("output").innerHTML = html;
+let userSkills = JSON.parse(localStorage.getItem("userSkills")) || [];
+let selectedCareer = "Data Scientist"; // or get dynamically
+let requiredSkills = careerData[selectedCareer];
+  let gap = requiredSkills.filter(skill => !userSkills.includes(skill));
+document.getElementById("gap").innerText = gap.join(", ");
+  let score = calculateMatch(userSkills, requiredSkills);
+document.getElementById("matchScore").innerText = score + "%";
+  const ctx = document.getElementById('skillChart');
 
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: requiredSkills,
+        datasets: [{
+            label: 'Skill Match',
+            data: requiredSkills.map(skill => userSkills.includes(skill) ? 80 : 20)
+        }]
+    }
+});
+  let list = document.getElementById("trendingSkills");
+
+trendingSkills.forEach(skill => {
+    let li = document.createElement("li");
+    li.innerText = skill;
+    list.appendChild(li);
+});
+  setTimeout(() => {
+    document.getElementById("aiStatus").innerText = "AI Analysis Complete ✅";
+}, 2000);
+  
 }
