@@ -1,112 +1,111 @@
-function analyze(){
+function analyze(){ 
 
-let career = document.getElementById("career").value;
+  let career = document.getElementById("career").value;
 
-let userSkills = document.getElementById("skills").value
-.split(",")
-.map(skill => skill.trim().toLowerCase());
+  let userSkills = document.getElementById("skills").value
+    .split(",")
+    .map(skill => skill.trim().toLowerCase())
+    .filter(skill => skill !== "");
 
-let requiredSkills = careerSkills[career];
+  let requiredSkills = careerSkills[career];
 
-if(!requiredSkills){
-document.getElementById("output").innerHTML = "Career data not found.";
-return;
+  if(!requiredSkills){
+    document.getElementById("output").innerHTML = "Career data not found.";
+    return;
+  }
+
+  // ✅ Missing skills
+  let missing = requiredSkills.filter(skill =>
+    !userSkills.includes(skill.toLowerCase())
+  );
+
+  // ✅ Match Score (using function from data.js)
+  let score = calculateMatch(userSkills, requiredSkills);
+
+  // ✅ Course Recommendations
+  let coursesHTML = "";
+
+  missing.forEach(skill => {
+
+    if(courseData[skill]){
+
+      coursesHTML += `<h4>${skill}</h4><ul>`;
+
+      courseData[skill].forEach(course=>{
+        coursesHTML += `<li>${course}</li>`;
+      });
+
+      coursesHTML += "</ul>";
+    }
+
+  });
+
+  // ✅ Final Output
+  let result = `
+  <h2>🎯 ${career} Skill Analysis</h2>
+
+  <h3>📊 Match Score: ${score}%</h3>
+
+  <h3>✅ Your Skills</h3>
+  <p>${userSkills.join(", ") || "None"}</p>
+
+  <h3>📌 Missing Skills</h3>
+  <p style="color:#f87171">${missing.join(", ") || "None 🎉"}</p>
+
+  <h3>📚 Recommended Courses</h3>
+  ${coursesHTML || "No course recommendations available"}
+
+  <h3>🛣️ Learning Roadmap</h3>
+  <ol>
+    <li>Learn fundamentals</li>
+    <li>Complete recommended courses</li>
+    <li>Build 2-3 projects</li>
+    <li>Practice interview questions</li>
+    <li>Apply for internships/jobs</li>
+  </ol>
+  `;
+
+  document.getElementById("output").innerHTML = result;
+
+  // ✅ Save skills for dashboard
+  localStorage.setItem("userSkills", JSON.stringify(userSkills));
 }
 
-let missing = requiredSkills.filter(skill =>
-!userSkills.includes(skill.toLowerCase())
-);
 
-let coursesHTML = "";
 
-missing.forEach(skill => {
-
-if(courseData[skill]){
-
-coursesHTML += `<h4>${skill}</h4><ul>`;
-
-courseData[skill].forEach(course=>{
-coursesHTML += `<li>${course}</li>`;
-});
-
-coursesHTML += "</ul>";
-
-}
-
-});
-
-let result = `
-<h2>${career} Skill Analysis</h2>
-
-<h3>Required Skills</h3>
-<p>${requiredSkills.join(", ")}</p>
-
-<h3>Missing Skills</h3>
-<p style="color:red">${missing.join(", ") || "None"}</p>
-<h3>Recommended Courses</h3>
-${coursesHTML || "No course recommendations available"}
-
-<h3>Learning Roadmap</h3>
-<ol>
-<li>Learn fundamentals</li>
-<li>Complete recommended courses</li>
-<li>Build portfolio projects</li>
-<li>Practice interview questions</li>
-<li>Apply for internships</li>
-</ol>
-`;
-
-document.getElementById("output").innerHTML = result;
-
-}
+// 🚀 CAREER RECOMMENDATION
 function recommendCareer(){
 
-let userSkills = document.getElementById("skills").value
-.split(",")
-.map(skill => skill.trim().toLowerCase());
+  let userSkills = document.getElementById("skills").value
+    .split(",")
+    .map(skill => skill.trim().toLowerCase())
+    .filter(skill => skill !== "");
 
-let bestCareer = "";
-let maxMatch = 0;
+  let bestCareer = "";
+  let maxScore = 0;
 
-for(let career in careerSkills){
+  for(let career in careerSkills){
 
-let requiredSkills = careerSkills[career].map(skill => skill.toLowerCase());
+    let requiredSkills = careerSkills[career];
 
-let matchCount = requiredSkills.filter(skill =>
-userSkills.includes(skill)
-).length;
+    let score = calculateMatch(userSkills, requiredSkills);
 
-if(matchCount > maxMatch){
-maxMatch = matchCount;
-bestCareer = career;
-}
+    if(score > maxScore){
+      maxScore = score;
+      bestCareer = career;
+    }
 
-}
+  }
 
-if(bestCareer === ""){
-document.getElementById("output").innerHTML = "No suitable career found.";
-}
-else{
-document.getElementById("output").innerHTML = `
-<h2>Recommended Career</h2>
-<p>${bestCareer}</p>
-<p>Based on your skills.</p>
-`;
-}
+  if(bestCareer === ""){
+    document.getElementById("output").innerHTML = "No suitable career found.";
+  }
+  else{
+    document.getElementById("output").innerHTML = `
+      <h2>🚀 Recommended Career</h2>
+      <p><b>${bestCareer}</b></p>
+      <p>Match Score: ${maxScore}%</p>
+    `;
+  }
 
-}
-function calculateMatch(userSkills, requiredSkills) {
-    let match = userSkills.filter(skill => requiredSkills.includes(skill));
-    return Math.round((match.length / requiredSkills.length) * 100);
-}
-function submitSkills() {
-    let userSkills = [];
-
-    document.querySelectorAll('input[name="skills"]:checked').forEach(el => {
-        userSkills.push(el.value);
-    });
-
-    localStorage.setItem("userSkills", JSON.stringify(userSkills));
-
-    window.location.href = "dashboard.html";
 }
