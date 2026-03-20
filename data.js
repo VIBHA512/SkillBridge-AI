@@ -30,7 +30,35 @@ const careerSkills = {
     "ethical hacking",
     "security analysis",
     "cryptography"
-  ]
+  ],
+
+  "Data Analyst":[
+  "python",
+  "sql",
+  "data visualization",
+  "excel"
+],
+
+"Frontend Developer":[
+  "html",
+  "css",
+  "javascript",
+  "react"
+],
+
+"Backend Developer":[
+  "node.js",
+  "python",
+  "database",
+  "api"
+],
+
+"Cloud Engineer":[
+  "cloud computing",
+  "aws",
+  "linux",
+  "networking"
+]
 
 };
 
