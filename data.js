@@ -1,69 +1,82 @@
+// 🎯 CAREER SKILLS (LEVEL + WEIGHT BASED)
 const careerSkills = { 
 
-  "Data Scientist":[
-    "python",
-    "machine learning",
-    "statistics",
-    "sql",
-    "data visualization"
-  ],
+  "Data Scientist": {
+    "python": { level: "advanced", weight: 0.3 },
+    "machine learning": { level: "intermediate", weight: 0.25 },
+    "statistics": { level: "intermediate", weight: 0.2 },
+    "sql": { level: "intermediate", weight: 0.15 },
+    "data visualization": { level: "beginner", weight: 0.1 }
+  },
 
-  "Web Developer":[
-    "html",
-    "css",
-    "javascript",
-    "react",
-    "node.js"
-  ],
+  "Web Developer": {
+    "html": { level: "advanced", weight: 0.2 },
+    "css": { level: "advanced", weight: 0.2 },
+    "javascript": { level: "advanced", weight: 0.3 },
+    "react": { level: "intermediate", weight: 0.2 },
+    "node.js": { level: "beginner", weight: 0.1 }
+  },
 
-  "AI Engineer":[
-    "python",
-    "deep learning",
-    "tensorflow",
-    "machine learning",
-    "nlp"
-  ],
+  "AI Engineer": {
+    "python": { level: "advanced", weight: 0.3 },
+    "deep learning": { level: "intermediate", weight: 0.25 },
+    "tensorflow": { level: "intermediate", weight: 0.2 },
+    "machine learning": { level: "intermediate", weight: 0.15 },
+    "nlp": { level: "beginner", weight: 0.1 }
+  },
 
-  "Cybersecurity Analyst":[
-    "networking",
-    "linux",
-    "ethical hacking",
-    "security analysis",
-    "cryptography"
-  ],
+  "Cybersecurity Analyst": {
+    "networking": { level: "intermediate", weight: 0.25 },
+    "linux": { level: "intermediate", weight: 0.2 },
+    "ethical hacking": { level: "intermediate", weight: 0.2 },
+    "security analysis": { level: "beginner", weight: 0.2 },
+    "cryptography": { level: "beginner", weight: 0.15 }
+  },
 
-  "Data Analyst":[
-  "python",
-  "sql",
-  "data visualization",
-  "excel"
-],
+  "Data Analyst": {
+    "python": { level: "intermediate", weight: 0.25 },
+    "sql": { level: "intermediate", weight: 0.3 },
+    "data visualization": { level: "intermediate", weight: 0.25 },
+    "excel": { level: "advanced", weight: 0.2 }
+  },
 
-"Frontend Developer":[
-  "html",
-  "css",
-  "javascript",
-  "react"
-],
+  "Frontend Developer": {
+    "html": { level: "advanced", weight: 0.25 },
+    "css": { level: "advanced", weight: 0.25 },
+    "javascript": { level: "advanced", weight: 0.3 },
+    "react": { level: "intermediate", weight: 0.2 }
+  },
 
-"Backend Developer":[
-  "node.js",
-  "python",
-  "database",
-  "api"
-],
+  "Backend Developer": {
+    "node.js": { level: "intermediate", weight: 0.3 },
+    "python": { level: "intermediate", weight: 0.25 },
+    "database": { level: "intermediate", weight: 0.25 },
+    "api": { level: "beginner", weight: 0.2 }
+  },
 
-"Cloud Engineer":[
-  "cloud computing",
-  "aws",
-  "linux",
-  "networking"
-]
+  "Cloud Engineer": {
+    "cloud computing": { level: "intermediate", weight: 0.3 },
+    "aws": { level: "intermediate", weight: 0.25 },
+    "linux": { level: "intermediate", weight: 0.2 },
+    "networking": { level: "beginner", weight: 0.25 }
+  }
 
 };
 
 
-// 📚 COURSE RECOMMENDATIONS
+
+// 🔁 SKILL SYNONYMS (IMPORTANT FOR MATCHING)
+const synonyms = {
+  "ml": "machine learning",
+  "ai": "machine learning",
+  "python programming": "python",
+  "data viz": "data visualization",
+  "js": "javascript"
+};
+
+
+
+// 📚 COURSE RECOMMENDATIONS (same as before)
 const courseData = {
 
   "python":[
@@ -75,26 +88,26 @@ const courseData = {
     "Machine Learning by Andrew Ng - Coursera",
     "Machine Learning Specialization - DeepLearning.AI"
   ],  
+
   "excel":[
-  "Excel Skills for Data Analysis - Coursera"
-],
+    "Excel Skills for Data Analysis - Coursera"
+  ],
 
-"database":[
-  "Database Management Systems - Coursera"
-],
+  "database":[
+    "Database Management Systems - Coursera"
+  ],
 
-"api":[
-  "REST API Development - Udemy"
-],
+  "api":[
+    "REST API Development - Udemy"
+  ],
 
-"aws":[
-  "AWS Cloud Practitioner Essentials"
-],
+  "aws":[
+    "AWS Cloud Practitioner Essentials"
+  ],
 
-"cloud computing":[
-  "Introduction to Cloud Computing - Coursera"
-],
-  
+  "cloud computing":[
+    "Introduction to Cloud Computing - Coursera"
+  ],
 
   "sql":[
     "SQL for Data Science - Coursera",
@@ -140,6 +153,7 @@ const courseData = {
 };
 
 
+
 // 🔥 TRENDING SKILLS
 const trendingSkills = [
   "AI",
@@ -151,16 +165,51 @@ const trendingSkills = [
 ];
 
 
-// 💡 HELPER: MATCH SCORE FUNCTION (VERY IMPORTANT)
-function calculateMatch(userSkills, requiredSkills) {
 
-  let match = 0;
+// 🧠 NORMALIZE SKILL (LOWERCASE + SYNONYMS)
+function normalizeSkill(skill) {
+  skill = skill.toLowerCase().trim();
+  return synonyms[skill] || skill;
+}
 
-  requiredSkills.forEach(skill => {
-    if (userSkills.includes(skill.toLowerCase())) {
-      match++;
-    }
+
+
+// 💡 LEVEL COMPARISON
+function compareLevel(userLevel, requiredLevel) {
+  const levels = { beginner: 1, intermediate: 2, advanced: 3 };
+  return (levels[userLevel] || 0) >= (levels[requiredLevel] || 0);
+}
+
+
+
+// 🚀 IMPROVED MATCH FUNCTION
+function calculateMatch(userInput, requiredSkillsObj) {
+
+  // Convert user input → object
+  const userSkills = {};
+
+  userInput.split(',').forEach(s => {
+    let [skill, level] = s.split(':');
+
+    skill = normalizeSkill(skill);
+    level = (level || "beginner").toLowerCase().trim();
+
+    userSkills[skill] = level;
   });
 
-  return Math.round((match / requiredSkills.length) * 100);
+  let score = 0;
+  let totalWeight = 0;
+
+  for (const skill in requiredSkillsObj) {
+
+    const { level, weight } = requiredSkillsObj[skill];
+
+    totalWeight += weight;
+
+    if (userSkills[skill] && compareLevel(userSkills[skill], level)) {
+      score += weight;
+    }
+  }
+
+  return Math.round((score / totalWeight) * 100);
 }
