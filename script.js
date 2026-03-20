@@ -71,7 +71,7 @@ function analyze(){
   let result = `
     <h2>🎯 ${career} Skill Analysis</h2>
 
-    <h3>📊 Match Score: ${score}%</h3>
+   <h3>📊 Match Score: <span style="color:#4ade80">${score}%</span></h3>
 
     <h3>✅ Your Skills</h3>
     <p>${Object.keys(userSkills).join(", ")}</p>
