@@ -37,7 +37,7 @@ function extractSkills() {
       detected = [...new Set(detected.map(s => normalizeSkill(s)))];
 
       // 👉 Add default level (beginner)
-      let formatted = detected.map(skill => `${skill}:beginner`);
+      let formatted = detected.map(skill => `${skill}:intermediate`);
 
       document.getElementById("skills").value = formatted.join(", ");
 
