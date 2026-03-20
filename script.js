@@ -89,6 +89,37 @@ userSkills = normalizeSkills(userSkills);
   // ✅ Auto scroll
   document.getElementById("output").scrollIntoView({ behavior: "smooth" });
 }
+function suggestCareers(){
+
+  let userSkills = document.getElementById("skills").value
+    .split(",")
+    .map(skill => skill.trim().toLowerCase())
+    .filter(skill => skill !== "");
+
+  let results = [];
+
+  for(let career in careerSkills){
+
+    let requiredSkills = careerSkills[career];
+
+    let score = calculateMatch(userSkills, requiredSkills);
+
+    if(score > 0){
+      results.push({ career, score });
+    }
+  }
+
+  // sort highest first
+  results.sort((a, b) => b.score - a.score);
+
+  let html = "<h2>💡 Suggested Career Paths</h2>";
+
+  results.slice(0, 5).forEach(item => {
+    html += `<p><b>${item.career}</b> - ${item.score}% match</p>`;
+  });
+
+  document.getElementById("output").innerHTML = html;
+}
 
 function normalizeSkills(userSkills) {
 
