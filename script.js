@@ -109,3 +109,18 @@ function recommendCareer(){
   }
 
 }
+window.onload = function() {
+
+  let list = document.getElementById("trending");
+
+  if (!list) return;
+
+  list.innerHTML = "";
+
+  trendingSkills.forEach(skill => {
+    let li = document.createElement("li");
+    li.innerText = skill;
+    list.appendChild(li);
+  });
+
+};
