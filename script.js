@@ -18,6 +18,10 @@ function analyze(){
 
   // 🔥 Convert user input → object {skill: level}
   const userSkills = {};
+  let userSoftInput = document.getElementById("softSkills").value
+  .split(",")
+  .map(s => s.trim().toLowerCase())
+  .filter(s => s !== "");
 
   userInput.split(',').forEach(s => {
     let [skill, level] = s.split(':');
@@ -36,10 +40,26 @@ function analyze(){
       missing.push(skill);
     }
   }
+let softScore = 0;
+let totalSoftWeight = 0;
 
+let requiredSoft = softSkills[career] || {};
+
+for(let skill in requiredSoft){
+
+  totalSoftWeight += requiredSoft[skill];
+
+  if(userSoftInput.includes(skill)){
+    softScore += requiredSoft[skill];
+  }
+}
+
+let softPercent = totalSoftWeight 
+  ? Math.round((softScore / totalSoftWeight) * 100)
+  : 0;
   // ✅ Match Score
   let score = calculateMatch(userInput, requiredSkills);
-
+let finalScore = Math.round((score * 0.7) + (softPercent * 0.3));
   // ✅ Course Recommendations
   let coursesHTML = "";
 
@@ -69,9 +89,12 @@ function analyze(){
 
   // 🎯 Output
   let result = `
-    <h2>🎯 ${career} Skill Analysis</h2>
+  <h2>🎯 ${career} Skill Analysis</h2>
 
-   <h3>📊 Match Score: <span style="color:#4ade80">${score}%</span></h3>
+  <h3>📊 Technical Score: ${score}%</h3>
+  <h3>🧠 Soft Skills Score: ${softPercent}%</h3>
+  <h3>🎯 Overall Score: <span style="color:#4ade80">${finalScore}%</span></h3>
+`;
 
     <h3>✅ Your Skills</h3>
     <p>${Object.keys(userSkills).join(", ")}</p>
