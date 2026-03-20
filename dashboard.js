@@ -1,28 +1,71 @@
 function showDashboard() {
 
   let career = document.getElementById("career").value;
+  let userInput = document.getElementById("skills").value;
 
-  let userSkills = document.getElementById("skills").value
-    .split(",")
-    .map(s => s.trim().toLowerCase())
-    .filter(s => s !== "");
+  if(userInput.trim() === ""){
+    document.getElementById("output").innerHTML = "⚠️ Please enter your skills first.";
+    return;
+  }
 
   let requiredSkills = careerSkills[career];
 
-  // ✅ Learned skills
-  let learned = requiredSkills.filter(skill =>
-    userSkills.includes(skill.toLowerCase())
-  );
+  if(!requiredSkills){
+    document.getElementById("output").innerHTML = "Career data not found.";
+    return;
+  }
 
-  // ✅ Progress %
-  let progress = Math.round((learned.length / requiredSkills.length) * 100);
+  // 🔥 Convert user input → object
+  const userSkills = {};
 
-  // ✅ Remaining skills
-  let remaining = requiredSkills.filter(skill =>
-    !learned.includes(skill)
-  );
+  userInput.split(',').forEach(s => {
+    let [skill, level] = s.split(':');
 
-  // ✅ UI + Chart container
+    skill = normalizeSkill(skill);
+    level = (level || "beginner").toLowerCase().trim();
+
+    userSkills[skill] = level;
+  });
+
+  let learned = [];
+  let remaining = [];
+
+  let score = 0;
+  let totalWeight = 0;
+
+  // 🔥 Process skills
+  for(let skill in requiredSkills){
+
+    let { level, weight } = requiredSkills[skill];
+    totalWeight += weight;
+
+    if(userSkills[skill] && compareLevel(userSkills[skill], level)){
+      learned.push(skill);
+      score += weight;
+    } else {
+      remaining.push(skill);
+    }
+  }
+
+  let progress = Math.round((score / totalWeight) * 100);
+
+  // 🧠 Convert levels to numbers for chart
+  function levelToNumber(level){
+    return level === "advanced" ? 100 :
+           level === "intermediate" ? 70 : 40;
+  }
+
+  let labels = Object.keys(requiredSkills);
+
+  let chartData = labels.map(skill => {
+    if(userSkills[skill]){
+      return levelToNumber(userSkills[skill]);
+    } else {
+      return 20; // not learned
+    }
+  });
+
+  // 🧾 UI
   let html = `
     <h2>📊 Learning Progress</h2>
 
@@ -33,25 +76,23 @@ function showDashboard() {
     <p>${learned.join(", ") || "None yet"}</p>
 
     <h3>📌 Skills Remaining</h3>
-    <p>${remaining.join(", ")}</p>
+    <p>${remaining.join(", ") || "None 🎉"}</p>
 
     <canvas id="skillChart" style="margin-top:20px;"></canvas>
   `;
 
   document.getElementById("output").innerHTML = html;
 
-  // ✅ CHART
+  // 📊 CHART
   let ctx = document.getElementById("skillChart");
 
   new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: requiredSkills,
+      labels: labels,
       datasets: [{
-        label: 'Skill Level',
-        data: requiredSkills.map(skill =>
-          userSkills.includes(skill.toLowerCase()) ? 100 : 20
-        )
+        label: 'Skill Level Progress',
+        data: chartData
       }]
     },
     options: {
@@ -64,6 +105,6 @@ function showDashboard() {
     }
   });
 
-  // ✅ Save user skills (for future use)
+  // 💾 Save
   localStorage.setItem("userSkills", JSON.stringify(userSkills));
 }
