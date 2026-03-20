@@ -57,14 +57,18 @@ let score = typeof calculateMatch === "function"
   <h3>📚 Recommended Courses</h3>
   ${coursesHTML || "No course recommendations available"}
 
-  <h3>🛣️ Learning Roadmap</h3>
-  <ol>
-    <li>Learn fundamentals</li>
-    <li>Complete recommended courses</li>
-    <li>Build 2-3 projects</li>
-    <li>Practice interview questions</li>
-    <li>Apply for internships/jobs</li>
-  </ol>
+  let roadmap = "";
+
+missing.forEach((skill, index) => {
+  roadmap += `<li>Week ${index*2+1}-${index*2+2}: Learn ${skill}</li>`;
+});
+
+let roadmapHTML = `
+<h3>🛣️ Personalized Roadmap</h3>
+<ol>
+${roadmap || "<li>You are job-ready! 🎉</li>"}
+</ol>
+`;
   `;
 
   document.getElementById("output").innerHTML = result;
