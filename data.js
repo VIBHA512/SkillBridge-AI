@@ -176,7 +176,7 @@ function normalizeSkill(skill) {
 
 // 💡 LEVEL COMPARISON
 function compareLevel(userLevel, requiredLevel) {
-  const levels = { beginner: 1, intermediate: 2, advanced: 3 };
+  const levels = { basic: 1, beginner: 1, intermediate: 2, advanced: 3 };
 
   // 🔥 Allow partial match
   if (userLevel === requiredLevel) return true;
@@ -197,6 +197,7 @@ function calculateMatch(userInput, requiredSkillsObj) {
 
     skill = normalizeSkill(skill);
    level = (level || "intermediate").toLowerCase().trim();
+    if(level === "basic") level = "beginner";
 
     userSkills[skill] = level;
   });
