@@ -1,91 +1,118 @@
-const careerSkills = {
+const careerSkills = { 
 
-"Data Scientist":[
-"python",
-"machine learning",
-"statistics",
-"sql",
-"data visualization"
-],
+  "Data Scientist":[
+    "python",
+    "machine learning",
+    "statistics",
+    "sql",
+    "data visualization"
+  ],
 
-"Web Developer":[
-"html",
-"css",
-"javascript",
-"react",
-"node.js"
-],
+  "Web Developer":[
+    "html",
+    "css",
+    "javascript",
+    "react",
+    "node.js"
+  ],
 
-"AI Engineer":[
-"python",
-"deep learning",
-"tensorflow",
-"machine learning",
-"nlp"
-],
+  "AI Engineer":[
+    "python",
+    "deep learning",
+    "tensorflow",
+    "machine learning",
+    "nlp"
+  ],
 
-"Cybersecurity Analyst":[
-"networking",
-"linux",
-"ethical hacking",
-"security analysis",
-"cryptography"
-]
+  "Cybersecurity Analyst":[
+    "networking",
+    "linux",
+    "ethical hacking",
+    "security analysis",
+    "cryptography"
+  ]
 
-}
+};
 
+
+// 📚 COURSE RECOMMENDATIONS
 const courseData = {
 
-"python":[
-"Python for Everybody - Coursera",
-"Complete Python Bootcamp - Udemy"
-],
+  "python":[
+    "Python for Everybody - Coursera",
+    "Complete Python Bootcamp - Udemy"
+  ],
 
-"machine learning":[
-"Machine Learning by Andrew Ng - Coursera",
-"Machine Learning Specialization - DeepLearning.AI"
-],
+  "machine learning":[
+    "Machine Learning by Andrew Ng - Coursera",
+    "Machine Learning Specialization - DeepLearning.AI"
+  ],
 
-"sql":[
-"SQL for Data Science - Coursera",
-"The Complete SQL Bootcamp - Udemy"
-],
+  "sql":[
+    "SQL for Data Science - Coursera",
+    "The Complete SQL Bootcamp - Udemy"
+  ],
 
-"data visualization":[
-"Data Visualization with Tableau - Coursera"
-],
+  "data visualization":[
+    "Data Visualization with Tableau - Coursera"
+  ],
 
-"html":[
-"HTML & CSS Crash Course - freeCodeCamp"
-],
+  "html":[
+    "HTML & CSS Crash Course - freeCodeCamp"
+  ],
 
-"css":[
-"Responsive Web Design - freeCodeCamp"
-],
+  "css":[
+    "Responsive Web Design - freeCodeCamp"
+  ],
 
-"javascript":[
-"JavaScript Algorithms - freeCodeCamp"
-],
+  "javascript":[
+    "JavaScript Algorithms - freeCodeCamp"
+  ],
 
-"react":[
-"React Developer Course - Udemy"
-],
+  "react":[
+    "React Developer Course - Udemy"
+  ],
 
-"node.js":[
-"Node.js Complete Guide - Udemy"
-],
+  "node.js":[
+    "Node.js Complete Guide - Udemy"
+  ],
 
-"deep learning":[
-"Deep Learning Specialization - Coursera"
-],
+  "deep learning":[
+    "Deep Learning Specialization - Coursera"
+  ],
 
-"tensorflow":[
-"TensorFlow Developer Certificate - Coursera"
-],
+  "tensorflow":[
+    "TensorFlow Developer Certificate - Coursera"
+  ],
 
-"nlp":[
-"Natural Language Processing Specialization - Coursera"
-]
+  "nlp":[
+    "Natural Language Processing Specialization - Coursera"
+  ]
 
+};
+
+
+// 🔥 TRENDING SKILLS
+const trendingSkills = [
+  "AI",
+  "Cloud Computing",
+  "Cybersecurity",
+  "Data Science",
+  "Blockchain",
+  "DevOps"
+];
+
+
+// 💡 HELPER: MATCH SCORE FUNCTION (VERY IMPORTANT)
+function calculateMatch(userSkills, requiredSkills) {
+
+  let match = 0;
+
+  requiredSkills.forEach(skill => {
+    if (userSkills.includes(skill.toLowerCase())) {
+      match++;
+    }
+  });
+
+  return Math.round((match / requiredSkills.length) * 100);
 }
-const trendingSkills = ["AI", "Cloud Computing", "Cybersecurity", "Data Science"];
