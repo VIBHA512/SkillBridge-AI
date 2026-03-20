@@ -88,3 +88,4 @@ const courseData = {
 ]
 
 }
+const trendingSkills = ["AI", "Cloud Computing", "Cybersecurity", "Data Science"];
