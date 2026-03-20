@@ -1,21 +1,13 @@
+// 🎯 KNOWN SKILLS (EXPANDED + LOWERCASE SAFE)
 const knownSkills = [
-  "Python",
-  "Machine Learning",
-  "SQL",
-  "HTML",
-  "CSS",
-  "JavaScript",
-  "React",
-  "Node.js",
-  "Deep Learning",
-  "TensorFlow",
-  "NLP",
-  "Networking",
-  "Linux",
-  "Data Visualization"
+  "python", "machine learning", "sql", "html", "css", "javascript",
+  "react", "node.js", "deep learning", "tensorflow", "nlp",
+  "networking", "linux", "data visualization", "excel",
+  "cloud computing", "aws", "database", "api"
 ];
 
-// 📄 RESUME SKILL EXTRACTION
+
+// 📄 RESUME SKILL EXTRACTION (IMPROVED)
 function extractSkills() {
 
   let fileInput = document.getElementById("resumeUpload");
@@ -36,12 +28,18 @@ function extractSkills() {
       let detected = [];
 
       knownSkills.forEach(skill => {
-        if (text.includes(skill.toLowerCase())) {
+        if (text.includes(skill)) {
           detected.push(skill);
         }
       });
 
-      document.getElementById("skills").value = detected.join(", ");
+      // 🔥 Normalize + remove duplicates
+      detected = [...new Set(detected.map(s => normalizeSkill(s)))];
+
+      // 👉 Add default level (beginner)
+      let formatted = detected.map(skill => `${skill}:beginner`);
+
+      document.getElementById("skills").value = formatted.join(", ");
 
       document.getElementById("output").innerHTML =
         "✅ Skills Extracted Successfully!";
@@ -53,54 +51,71 @@ function extractSkills() {
 }
 
 
-// 🤖 CHATBOT RESPONSE LOGIC
+
+// 🤖 SMART CHATBOT RESPONSE
 function chatbotResponse(input) {
 
   input = input.toLowerCase();
 
-  // Skills-based suggestions
+  // 🔥 Skill-based career suggestions
   if (input.includes("python")) {
-    return "With Python, you can explore Data Science, AI Engineer, Backend Developer roles.";
+    return "With Python, you can explore Data Scientist, AI Engineer, or Backend Developer roles. Try improving ML and projects!";
   }
 
   if (input.includes("web")) {
-    return "You can become a Frontend Developer, Full Stack Developer, or UI/UX Engineer.";
+    return "You can go for Frontend Developer, Backend Developer, or Full Stack roles. Focus on JavaScript and frameworks.";
   }
 
   if (input.includes("ai") || input.includes("machine learning")) {
-    return "Great choice! Focus on Python, ML, Deep Learning, and projects to become an AI Engineer.";
+    return "To become an AI Engineer, focus on Python, Machine Learning, Deep Learning, and real-world projects.";
   }
 
   if (input.includes("cyber")) {
-    return "Cybersecurity roles require Networking, Linux, Ethical Hacking, and Security Analysis.";
+    return "Cybersecurity requires Networking, Linux, Ethical Hacking, and Security Analysis. Start with basics + labs.";
   }
 
-  // Career suggestions based on entered skills
+  // 🔥 Dynamic career suggestion using YOUR system
   if (input.includes("career")) {
-    let skillsInput = document.getElementById("skills").value.toLowerCase();
 
-    if (skillsInput.includes("python") && skillsInput.includes("sql")) {
-      return "You are a good fit for Data Scientist or Data Analyst roles.";
+    let userInput = document.getElementById("skills").value;
+
+    if(userInput.trim() === ""){
+      return "Please enter your skills first so I can suggest a career for you.";
     }
 
-    if (skillsInput.includes("html") || skillsInput.includes("css")) {
-      return "You can explore Web Development roles.";
+    let bestCareer = "";
+    let maxScore = 0;
+
+    for(let career in careerSkills){
+
+      let score = calculateMatch(userInput, careerSkills[career]);
+
+      if(score > maxScore){
+        maxScore = score;
+        bestCareer = career;
+      }
     }
 
-    return "Try improving your technical skills to explore better career options.";
+    return `Based on your skills, you are best suited for ${bestCareer} with a ${maxScore}% match.`;
   }
 
-  // Learning guidance
-  if (input.includes("learn") || input.includes("start")) {
-    return "Start with fundamentals, then build projects, and finally apply for internships.";
+  // 🔥 Skill improvement guidance
+  if (input.includes("improve") || input.includes("learn")) {
+    return "Focus on high-weight skills first, build projects, and follow a roadmap. Consistency is key!";
   }
 
-  // Default smart fallback
-  return "I can guide you on careers, skills, and learning paths. Try asking like: 'career with python' or 'skills for AI engineer'.";
+  // 🔥 Roadmap guidance
+  if (input.includes("roadmap")) {
+    return "Start with fundamentals → build projects → learn advanced topics → apply for internships.";
+  }
+
+  // 🔥 Default smart fallback
+  return "I can help with career suggestions, skill gaps, and learning paths. Try asking: 'best career for me' or 'how to become AI engineer'.";
 }
 
 
-// 💬 SEND MESSAGE FUNCTION (CONNECTS UI)
+
+// 💬 SEND MESSAGE (UI CONNECT)
 function sendMessage() {
 
   let inputField = document.getElementById("chatInput");
@@ -110,16 +125,14 @@ function sendMessage() {
 
   if (input === "") return;
 
-  // User message
+  // 👤 User message
   chatbox.innerHTML += `<p><b>You:</b> ${input}</p>`;
 
-  // Bot reply
+  // 🤖 AI reply
   let reply = chatbotResponse(input);
   chatbox.innerHTML += `<p><b>AI:</b> ${reply}</p>`;
 
-  // Clear input
   inputField.value = "";
 
-  // Auto scroll
   chatbox.scrollTop = chatbox.scrollHeight;
 }
