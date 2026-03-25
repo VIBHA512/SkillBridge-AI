@@ -94,15 +94,6 @@ const softSkills = {
 };
 
 
-// 🔁 SYNONYMS (FOR BETTER MATCHING)
-const synonyms = {
-  "ml": "machine learning",
-  "ai": "machine learning",
-  "js": "javascript",
-  "python programming": "python",
-  "data viz": "data visualization"
-};
-
 
 // 📚 COURSE DATA
 const courseData = {
@@ -154,7 +145,17 @@ const courseData = {
 
 };
 
-
+const synonyms = {
+  "ml": "machine learning",
+  "ai": "machine learning",
+  "js": "javascript",
+  "node": "node.js",
+  "reactjs": "react",
+  "frontend": "html",
+  "backend": "node.js",
+  "data viz": "data visualization",
+  "db": "database"
+};
 // 🔥 TRENDING SKILLS
 const trendingSkills = [
   "AI",
@@ -166,14 +167,17 @@ const trendingSkills = [
 ];
 
 
-// 🧠 NORMALIZE SKILL
+// 🧠 NORMALIZE SKILL (UPGRADED)
 function normalizeSkill(skill) {
   skill = skill.toLowerCase().trim();
+
+  // remove extra spaces
+  skill = skill.replace(/\s+/g, " ");
+
   return synonyms[skill] || skill;
 }
 
-
-// 📊 LEVEL COMPARISON
+// 📊 LEVEL COMPARISON (SMARTER)
 function compareLevel(userLevel, requiredLevel) {
 
   const levels = {
@@ -185,11 +189,12 @@ function compareLevel(userLevel, requiredLevel) {
 
   if (userLevel === requiredLevel) return true;
 
+  // allow 1 level difference
   return (levels[userLevel] || 0) + 1 >= (levels[requiredLevel] || 0);
 }
 
 
-// 🚀 FINAL MATCH FUNCTION (OBJECT BASED)
+// 🚀 SMART MATCH FUNCTION (IMPROVED)
 function calculateMatch(userSkills, requiredSkillsObj) {
 
   let score = 0;
@@ -198,14 +203,24 @@ function calculateMatch(userSkills, requiredSkillsObj) {
   for (const skill in requiredSkillsObj) {
 
     let { level, weight } = requiredSkillsObj[skill];
-
     totalWeight += weight;
 
-    if (
-      userSkills[skill] &&
-      compareLevel(userSkills[skill], level)
-    ) {
+    // ✅ direct match
+    if (userSkills[skill] && compareLevel(userSkills[skill], level)) {
       score += weight;
+    }
+
+    // 🔥 partial match (NEW)
+    else {
+      for (let userSkill in userSkills) {
+        if (
+          userSkill.includes(skill) || 
+          skill.includes(userSkill)
+        ) {
+          score += weight * 0.6; // partial credit
+          break;
+        }
+      }
     }
   }
 
